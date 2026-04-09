@@ -7,6 +7,17 @@ namespace WebApplication1.Controllers
     [ApiController]
     public class RoomsController : ControllerBase
     {
-        
+        [HttpGet]
+        public IActionResult Get()
+        {
+          return Ok("Rooms");
+        }
+
+        [HttpGet]
+        [Route("{id}")]
+        public IActionResult Get(int id)
+        {
+            return Ok("Rooms"+id);
+        }
     }
 }

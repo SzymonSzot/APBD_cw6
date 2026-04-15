@@ -9,6 +9,14 @@ namespace WebApplication1.Controllers
     [Route("api/[controller]")]
     public class RoomsController : ControllerBase
     {
+        private Room? FindById(int id)
+        {
+            foreach (Room r in DataHandler.Roomdata)
+                if (r.Id == id)
+                    return r;
+            return null;
+        }
+        
         [HttpGet]
         public ActionResult<IEnumerable<Room>> GetRooms(
             [FromQuery] int? minCapacity, 

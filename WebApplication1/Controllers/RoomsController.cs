@@ -41,10 +41,7 @@ namespace WebApplication1.Controllers
         [Route("{id:int}")]
         public IActionResult Get(int id)
         {
-            Room tmp = null;
-            foreach(Room r in DataHandler.Roomdata)
-                if (r.Id == id)
-                    tmp = r;
+            var tmp = FindById(id);
 
             if (tmp != null)
                 return Ok(tmp);
@@ -78,10 +75,8 @@ namespace WebApplication1.Controllers
         public IActionResult UpdateRoom(int id, [FromBody] Room updatedRoom)
         {
             Console.Out.WriteLine($"{updatedRoom.Id}, {updatedRoom.Name}");
-            Room existingRoom = null;
-            foreach (Room r in DataHandler.Roomdata)
-                if (r.Id == id)
-                    existingRoom = r;
+            
+            var existingRoom = FindById(updatedRoom.Id);
             
             if (existingRoom == null) 
                 return NotFound();
@@ -97,11 +92,8 @@ namespace WebApplication1.Controllers
         
         [HttpDelete("{id:int}")]
         public IActionResult DeleteRoom(int id)
-        {   
-            Room tmp = null;
-            foreach(Room r in DataHandler.Roomdata)
-                if (r.Id == id)
-                    tmp = r;
+        {
+            var tmp = FindById(id);
             
             if (tmp == null)
                 return NotFound();

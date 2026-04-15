@@ -13,7 +13,7 @@ public class Room
     public bool HasProjector { get; set; }
     public bool IsActive { get; set; }
 
-    public Room(string name, string buildingCode, int floor, int capacity, bool hasProjector, bool isActive)
+    public Room(string name, string buildingCode, int floor, int capacity, bool hasProjector)
     {
         Id = _id++; 
         Name = name;

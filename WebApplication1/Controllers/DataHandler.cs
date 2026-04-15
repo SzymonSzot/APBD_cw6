@@ -5,7 +5,7 @@ namespace WebApplication1.Controllers;
 
 public static class DataHandler
 {
-    public static ArrayList Roomdata = new ArrayList() ;
+    public static List<Room> Roomdata = new List<Room>() ;
     
     public static void InitializeRoomData()
     {

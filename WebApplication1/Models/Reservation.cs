@@ -21,7 +21,7 @@ public class Reservation
 
     [Required] public TimeOnly EndTime { get; set; }
 
-    public string Status { get; set; }
+    [RegularExpression(@"^(confirmed|planned)$")]public string Status { get; set; }
 
     public Reservation(int roomId, string organizerName, string topic, DateOnly date, TimeOnly startTime, TimeOnly endTime, string status )
     {

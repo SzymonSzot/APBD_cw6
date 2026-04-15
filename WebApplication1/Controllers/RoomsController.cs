@@ -10,11 +10,25 @@ namespace WebApplication1.Controllers
     public class RoomsController : ControllerBase
     {
         [HttpGet]
-        public IActionResult Get()
+        public ActionResult<IEnumerable<Room>> GetRooms(
+            [FromQuery] int? minCapacity, 
+            [FromQuery] bool? hasProjector, 
+            [FromQuery] bool? activeOnly)
         {
-          return Ok(DataHandler.Roomdata);
-        }
+            var query = DataHandler.Roomdata.AsQueryable();
+            
+            if (minCapacity.HasValue)
+                query = query.Where(r => r.Capacity >= minCapacity.Value);
 
+            if (hasProjector.HasValue)
+                query = query.Where(r => r.HasProjector == hasProjector.Value);
+
+            if (activeOnly.HasValue && activeOnly.Value)
+                query = query.Where(r => r.IsActive);
+
+            return Ok(query.ToList());
+        }
+        
         [HttpGet]
         [Route("{id:int}")]
         public IActionResult Get(int id)

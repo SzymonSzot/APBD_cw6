@@ -44,5 +44,48 @@ namespace WebApplication1.Controllers
             
             return NotFound();
         }
+        
+        [HttpPost]
+        public IActionResult CreateRoom([FromBody] Room newRoom)
+        {
+            DataHandler.Roomdata.Add(newRoom);
+            return Created();
+        }
+        
+        [HttpPut("{id:int}")]
+        public IActionResult UpdateRoom(int id, [FromBody] Room updatedRoom)
+        {
+            Console.Out.WriteLine($"{updatedRoom.Id}, {updatedRoom.Name}");
+            Room existingRoom = null;
+            foreach (Room r in DataHandler.Roomdata)
+                if (r.Id == id)
+                    existingRoom = r;
+            
+            if (existingRoom == null) 
+                return NotFound();
+
+            existingRoom.Name = updatedRoom.Name;
+            existingRoom.BuildingCode = updatedRoom.BuildingCode;
+            existingRoom.Capacity = updatedRoom.Capacity;
+            existingRoom.HasProjector = updatedRoom.HasProjector;
+            existingRoom.IsActive = updatedRoom.IsActive;
+
+            return Ok();
+        }
+        
+        [HttpDelete("{id:int}")]
+        public IActionResult DeleteRoom(int id)
+        {   
+            Room tmp = null;
+            foreach(Room r in DataHandler.Roomdata)
+                if (r.Id == id)
+                    tmp = r;
+            
+            if (tmp == null)
+                return NotFound();
+            
+            DataHandler.Roomdata.Remove(tmp);
+            return NoContent();
+        }
     }
 }

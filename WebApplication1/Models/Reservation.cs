@@ -8,18 +8,18 @@ public class Reservation
     private static int _id = 0;
     
     public int Id { get; set; }
-
+    
     public int RoomId { get; set; }
 
-    public string OrganizerName { get; set; }
+    [Required] public string OrganizerName { get; set; }
 
-    public string Topic { get; set; }
+    [Required] public string Topic { get; set; }
 
-    public DateOnly Date { get; set; }
+    [Required] public DateOnly Date { get; set; }
 
-    public TimeOnly StartTime { get; set; }
+    [Required] public TimeOnly StartTime { get; set; }
 
-    public TimeOnly EndTime { get; set; }
+    [Required] public TimeOnly EndTime { get; set; }
 
     public string Status { get; set; }
 

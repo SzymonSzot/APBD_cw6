@@ -1,5 +1,4 @@
 using System.Collections;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebApplication1.Models;
 
@@ -26,6 +25,21 @@ namespace WebApplication1.Controllers
                     tmp = r;
 
             if (tmp != null)
+                return Ok(tmp);
+            
+            return NotFound();
+        }
+        
+        [HttpGet]
+        [Route("{BuildingCode}")]
+        public IActionResult GetAll([FromRoute] string? buildingCode)
+        {
+            ArrayList tmp = new ArrayList();
+            foreach(Room r in DataHandler.Roomdata)
+                if (r.BuildingCode == buildingCode)
+                    tmp.Add(r);
+
+            if (tmp.Count > 0)
                 return Ok(tmp);
             
             return NotFound();

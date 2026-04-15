@@ -98,6 +98,14 @@ namespace WebApplication1.Controllers
             if (tmp == null)
                 return NotFound();
             
+            foreach (var reservation in DataHandler.ReservationData)
+            {
+                if (reservation.RoomId == id)
+                {
+                    return Conflict();
+                }
+            }
+            
             DataHandler.Roomdata.Remove(tmp);
             return NoContent();
         }

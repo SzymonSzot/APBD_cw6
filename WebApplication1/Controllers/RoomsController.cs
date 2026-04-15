@@ -74,8 +74,6 @@ namespace WebApplication1.Controllers
         [HttpPut("{id:int}")]
         public IActionResult UpdateRoom(int id, [FromBody] Room updatedRoom)
         {
-            Console.Out.WriteLine($"{updatedRoom.Id}, {updatedRoom.Name}");
-            
             var existingRoom = FindById(updatedRoom.Id);
             
             if (existingRoom == null) 

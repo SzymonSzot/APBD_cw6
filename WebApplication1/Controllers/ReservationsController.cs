@@ -44,6 +44,49 @@ namespace WebApplication1.Controllers
             return Ok(tmp);
         }
         
+        [HttpPut]
+        [Route("{id:int}")]
+        public IActionResult UpdateReservation(int id, [FromBody] Reservation updatedRes)
+        {
+            var existingRes = FindById(id);
+            if (existingRes == null)
+                return NotFound();
+            
+            existingRes.Date = updatedRes.Date;
+            existingRes.Status = updatedRes.Status;
+            existingRes.RoomId = updatedRes.RoomId;
+            existingRes.EndTime = updatedRes.EndTime;
+            existingRes.StartTime = updatedRes.StartTime;
+            existingRes.OrganizerName = updatedRes.OrganizerName;
+            existingRes.Topic =  updatedRes.Topic;
+            
+            return Ok();
+        }
+        
+        [HttpPost]
+        public IActionResult Create([FromBody] Reservation newRes)
+        {
+            Room room = null;
+            foreach(Room r in DataHandler.Roomdata)
+                if (r.Id == newRes.RoomId)
+                    room = r;
+            if (room == null) return NotFound();
+            
+            if (!room.IsActive) return BadRequest();
+            
+            bool hasConflict = DataHandler.ReservationData.Any(r => 
+                r.RoomId == newRes.RoomId && 
+                r.Date.Equals(newRes.Date) &&
+                r.Status != "cancelled" &&
+                newRes.StartTime.CompareTo(r.EndTime)<0 && newRes.EndTime.CompareTo(r.EndTime)>=0);
+
+            if (hasConflict) return Conflict();
+            
+            DataHandler.ReservationData.Add(newRes);
+            
+            return Created();
+        }
+        
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
